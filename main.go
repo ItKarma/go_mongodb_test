@@ -3,9 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -23,19 +21,21 @@ func main() {
 		panic(err)
 	}
 
-	//user := User{
-	//	Name: "Karma",
-	//	Age:  21,
-	//}
-	//
-	//fmt.Print(user)
+	user := User{
+		Name: "Karma",
+		Age:  21,
+	}
+
+	fmt.Print(user)
 
 	collection := client.Database("user").Collection("userData")
 
-	//result, err := collection.InsertOne(context.Background(), user)
-	//if err != nil {
-	//	panic(err)
-	//}
+	result, err := collection.InsertOne(context.Background(), user)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Print(result.InsertedID)
 
 	//filter := bson.D{{Key: "name", Value: user.Name}}
 	//userResult := User{}
@@ -46,20 +46,20 @@ func main() {
 	//
 	//fmt.Print(userResult)
 
-	cur, err := collection.Find(context.Background(), bson.D{})
-	if err != nil {
-		panic(err)
-	}
-
-	defer cur.Close(context.Background())
-	for cur.Next(context.Background()) {
-		userResult := User{}
-
-		err := cur.Decode(&userResult)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		fmt.Println(userResult)
-	}
+	//cur, err := collection.Find(context.Background(), bson.D{})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//
+	//defer cur.Close(context.Background())
+	//for cur.Next(context.Background()) {
+	//	userResult := User{}
+	//
+	//	err := cur.Decode(&userResult)
+	//	if err != nil {
+	//		log.Fatal(err)
+	//	}
+	//
+	//	fmt.Println(userResult)
+	//}
 }
